@@ -9,6 +9,8 @@ import (
 	"strings"
 )
 
+var allTemplates *template.Template
+
 // Page is our representation of saved data
 type Page struct {
 	Title string
@@ -64,24 +66,33 @@ func indexPages() ([]string, error) {
 	return fileList, nil
 }
 
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-	pageTemplate, err := template.ParseFiles("templates/index.html")
+func loadTemplates() {
+	var allFilenames []string
+	files, err := ioutil.ReadDir("./templates")
 	check(err)
+	for _, file := range files {
+		filename := file.Name()
+		allFilenames = append(allFilenames, "./templates/"+filename)
+	}
+	allTemplates, err = template.ParseFiles(allFilenames...)
+}
+
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+	indexTemp := allTemplates.Lookup("index.html")
 	pageIndex, err := indexPages()
 	check(err)
 	indexData := IndexTemplateData{Pages: pageIndex}
-	pageTemplate.Execute(w, indexData)
+	indexTemp.ExecuteTemplate(w, "index", indexData)
 }
 
 func pageHandler(w http.ResponseWriter, r *http.Request) {
 	pathElems := strings.Split(r.URL.Path, "/")
-	pageTemplate, err := template.ParseFiles("templates/page.html")
-	check(err)
 	subpath := pathElems[len(pathElems)-1]
 	pageData, err := loadPageData(subpath)
 	check(err)
+	pageTemp := allTemplates.Lookup("page.html")
 	pageTempData := pageData.toTemplateData()
-	pageTemplate.Execute(w, pageTempData)
+	pageTemp.ExecuteTemplate(w, "page", pageTempData)
 }
 
 func saveHandler(w http.ResponseWriter, r *http.Request) {
@@ -99,6 +110,8 @@ func serve404(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	static := http.Dir("static")
+
+	loadTemplates()
 
 	http.HandleFunc("/index.html", indexHandler)
 

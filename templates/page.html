@@ -1,28 +1,13 @@
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>
-            {{.Title}}
-        </title>
-        <link rel="stylesheet" href="/static/styles.css">
-    </head>
-    <body>
-        <header>
-            <h1>Procedural Outline Generator</h1>
-        </header>
-        <section>
-            <h2>{{.Title}}</h2>
-            <p>
-                {{.Body}}
-            </p>
-            <p>
-                <a href="../index.html">back</a>
-            </p>
-        </section>
-        <footer>
-            <hr>
-            <a href="https://hypothete.com">hypothete</a> 2018
-        </footer>
-    </body>
-</html>
+{{define "page"}}
+{{template "header"}}
+<section>
+    <h2>{{.Title}}</h2>
+    <p>
+        {{.Body}}
+    </p>
+    <p>
+        <a href="../index.html">back</a>
+    </p>
+</section>
+{{template "footer"}}
+{{end}}
