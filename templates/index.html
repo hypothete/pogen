@@ -18,9 +18,7 @@
 <section>
     <h2>Saved pages</h2>
     <p>
-        {{range .Pages}}
-            <a href="./pages/{{.}}">{{.}}</a>
-        {{end}}
+        {{range .Pages}}<a href="./pages/{{.}}">{{.}}</a> {{end}}
     </p>
 </section>
 {{template "footer"}}
