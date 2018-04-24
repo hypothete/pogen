@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"strings"
+
+	"gopkg.in/russross/blackfriday.v2"
 )
 
 var allTemplates *template.Template
@@ -42,10 +44,6 @@ func loadPageData(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil
 }
 
-func (p *Page) toTemplateData() *TemplatePage {
-	return &TemplatePage{Title: p.Title, Body: string(p.Body)}
-}
-
 func check(err error) {
 	if err != nil {
 		log.Fatal(err)
@@ -66,6 +64,11 @@ func indexPages() ([]string, error) {
 	return fileList, nil
 }
 
+func mdFunc(args ...interface{}) template.HTML {
+	s := blackfriday.Run([]byte(fmt.Sprintf("%s", args...)))
+	return template.HTML(string(s))
+}
+
 func loadTemplates() {
 	var allFilenames []string
 	files, err := ioutil.ReadDir("./templates")
@@ -74,7 +77,8 @@ func loadTemplates() {
 		filename := file.Name()
 		allFilenames = append(allFilenames, "./templates/"+filename)
 	}
-	allTemplates, err = template.ParseFiles(allFilenames...)
+	baseTemplate := template.New("").Funcs(template.FuncMap{"mdFunc": mdFunc})
+	allTemplates, _ = baseTemplate.ParseFiles(allFilenames...)
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
@@ -91,8 +95,7 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 	pageData, err := loadPageData(subpath)
 	check(err)
 	pageTemp := allTemplates.Lookup("page.html")
-	pageTempData := pageData.toTemplateData()
-	pageTemp.ExecuteTemplate(w, "page", pageTempData)
+	pageTemp.ExecuteTemplate(w, "page", pageData)
 }
 
 func saveHandler(w http.ResponseWriter, r *http.Request) {
