@@ -1,0 +1,40 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POGen</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Procedural Outline Generator</h1>
+    </header>
+    <section>
+        <h2>Your concept:</h2>
+        <p>
+            Random concept generates here
+        </p>
+        <form action="/save" method="POST">
+            <input type="text" name="title" placeholder="title">
+            <br>
+            <br>
+            <textarea name="body" id="" cols="30" rows="10" placeholder="body"></textarea>
+            <br>
+            <br>
+            <button type="submit">submit</button>
+        </form>
+    </section>
+    <section>
+        <h2>Saved pages</h2>
+        <p>
+            {{range .Pages}}
+                <a href="./pages/{{.}}">{{.}}</a>
+            {{end}}
+        </p>
+    </section>
+    <footer>
+        <hr>
+        <a href="https://hypothete.com">hypothete</a> 2018
+    </footer>
+</body>
+</html>
