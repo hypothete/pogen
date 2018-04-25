@@ -30,7 +30,7 @@ type TemplatePage struct {
 // IndexTemplateData stores the template data for the front page
 type IndexTemplateData struct {
 	Pages []string
-	Hand  []string
+	Hand  decks.Hand
 }
 
 func (p *Page) save() error {

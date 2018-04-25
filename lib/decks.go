@@ -7,6 +7,14 @@ import (
 	"strings"
 )
 
+// Hand organizes the modules' output
+type Hand struct {
+	Concept string
+	Idea    string
+	Medium  string
+	Noun    string
+}
+
 // TestDecks is just to make sure my modules work
 func TestDecks() string {
 	return "1 2 3"
@@ -27,18 +35,19 @@ func drawFromDeck(dName string) (string, error) {
 }
 
 // DrawHand returns cards from all 4 decks
-func DrawHand() []string {
+func DrawHand() Hand {
 	concept, err := drawFromDeck("decks/concepts.txt")
 	idea, err := drawFromDeck("decks/ideas.txt")
-	media, err := drawFromDeck("decks/media.txt")
+	medium, err := drawFromDeck("decks/media.txt")
 	noun, err := drawFromDeck("decks/nouns.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
-	var hand []string
-	hand = append(hand, concept)
-	hand = append(hand, idea)
-	hand = append(hand, media)
-	hand = append(hand, noun)
+	hand := Hand{
+		Concept: concept,
+		Idea:    idea,
+		Medium:  medium,
+		Noun:    noun,
+	}
 	return hand
 }

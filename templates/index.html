@@ -1,12 +1,15 @@
 {{define "index"}}
 {{template "header"}}
 <section>
-    <h2>Your concept:</h2>
-    <p>
-        {{range .Hand}}
-            <span>{{.}}</span>
+    <h2>Your prompt:</h2>
+    <ul>
+        {{with .Hand}}
+        <li>Concept: {{.Concept}}</li>
+        <li>Idea: {{.Idea}}</li>
+        <li>Medium: {{.Medium}}</li>
+        <li>Noun: {{.Noun}}</li>
         {{end}}
-    </p>
+    </ul>
     <form action="/save" method="POST">
         <input type="text" name="title" placeholder="title">
         <br>
