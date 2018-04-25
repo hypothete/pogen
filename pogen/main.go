@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/hypothete/pogen/lib"
+
 	"gopkg.in/russross/blackfriday.v2"
 )
 
@@ -28,6 +30,7 @@ type TemplatePage struct {
 // IndexTemplateData stores the template data for the front page
 type IndexTemplateData struct {
 	Pages []string
+	Hand  []string
 }
 
 func (p *Page) save() error {
@@ -85,7 +88,8 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	indexTemp := allTemplates.Lookup("index.html")
 	pageIndex, err := indexPages()
 	check(err)
-	indexData := IndexTemplateData{Pages: pageIndex}
+	drawnCards := decks.DrawHand()
+	indexData := IndexTemplateData{Pages: pageIndex, Hand: drawnCards}
 	indexTemp.ExecuteTemplate(w, "index", indexData)
 }
 

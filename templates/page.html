@@ -2,9 +2,7 @@
 {{template "header"}}
 <section>
     <h2>{{.Title}}</h2>
-    <p>
-        {{.Body | mdFunc}}
-    </p>
+    {{.Body | mdFunc}}
     <p>
         <a href="../index.html">back</a>
     </p>
