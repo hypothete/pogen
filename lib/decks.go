@@ -5,12 +5,12 @@ import (
 	"log"
 	"math/rand"
 	"strings"
+	"time"
 )
 
 // Hand organizes the modules' output
 type Hand struct {
 	Theme  string
-	Idea   string
 	Medium string
 	Noun   string
 }
@@ -36,8 +36,8 @@ func drawFromDeck(dName string) (string, error) {
 
 // DrawHand returns cards from all 4 decks
 func DrawHand() Hand {
+	rand.Seed(time.Now().UnixNano())
 	theme, err := drawFromDeck("decks/themes.txt")
-	idea, err := drawFromDeck("decks/ideas.txt")
 	medium, err := drawFromDeck("decks/media.txt")
 	noun, err := drawFromDeck("decks/nouns.txt")
 	if err != nil {
@@ -45,7 +45,6 @@ func DrawHand() Hand {
 	}
 	hand := Hand{
 		Theme:  theme,
-		Idea:   idea,
 		Medium: medium,
 		Noun:   noun,
 	}

@@ -1,7 +1,14 @@
 body {
     font-family: sans-serif;
+    text-align: center;
+    max-width: 960px;
+    margin: 0 auto;
 }
 
 p {
     white-space: pre-wrap;
+}
+
+ul {
+    display: inline-block;
 }
