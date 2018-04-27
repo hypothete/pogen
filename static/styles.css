@@ -11,4 +11,19 @@ p {
 
 ul {
     display: inline-block;
+    list-style-type: none;
+    text-align: left;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+textarea {
+    width: 50%;
+}
+
+input {
+    width: 50%;
 }
