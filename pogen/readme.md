@@ -8,6 +8,9 @@ POGen is a Procedural Outline Generator. With it, you can run a local webserver 
 go build main.go
 ```
 
+## Run
+run the generated executable, then point your web browser to `localhost:3333/index.html`
+
 ## License
 
 POGen is licensed under the GPL.
